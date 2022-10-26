@@ -48,8 +48,10 @@ jobs:
         path: target
     
     - name: Display structure of downloaded files
-      run: ls -al
-      working-directory: target
+      run: |
+        ls -al
+        ls -al /
+        pwd
       
     - name: Login to GitHub Packages Container Registry
       uses: docker/login-action@v2
