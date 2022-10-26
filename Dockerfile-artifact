@@ -1,4 +1,6 @@
 FROM openjdk:8-jdk-slim
 WORKDIR target
+RUN ls -al
+RUN pwd
 COPY *.jar /usr/local/lib/app.jar
 ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
