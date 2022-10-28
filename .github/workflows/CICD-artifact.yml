@@ -27,7 +27,8 @@ jobs:
     - name: upload build binary file
       uses: actions/upload-artifact@v3
       with:
-        path: target/*.jar
+        name: build-binary
+        path: target
       
   docker-build:
     runs-on: ubuntu-latest
@@ -49,15 +50,21 @@ jobs:
         
     - name: download build binary file
       uses: actions/download-artifact@v3
-
-    - name: Docker Build & Push to GitHub Packages
-      uses: docker/build-push-action@v3
+      
+    
+    - uses: actions/checkout@v3
+    
+    - name: download build binary file
+      uses: actions/download-artifact@v3
       with:
-        context: .
-        push: true
-        file: ./Dockerfile-artifact
-        tags: |
-          ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+        name: build-binary
+        path: target
+      
+    - name: Build Docker image
+      run: docker build -f ./Dockerfile-artifact -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} .
+    
+    - name: Push Docker image to DockerHub
+      run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
           
   #target 환경생성 되면 아래 수정하여 사용
   deploy:
