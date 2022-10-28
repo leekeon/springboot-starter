@@ -1,3 +1,3 @@
 FROM openjdk:8-jdk-slim
-COPY ~/download/target/*.jar /usr/local/lib/app.jar
+COPY /home/runner/download/target/*.jar /usr/local/lib/app.jar
 ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
